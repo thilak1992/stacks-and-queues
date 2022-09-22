@@ -1,11 +1,9 @@
 package com.bridgelabz;
 
-public class StacksAndQueues {
-    static com.bridgelabz.StacksAndQueues.Node head;
-
+public class StacksAndQueues<T> {
     static class Node {
         int data;
-        com.bridgelabz.StacksAndQueues.Node next;
+        Node next;
 
         Node(int data) {
             this.data = data;
@@ -13,39 +11,56 @@ public class StacksAndQueues {
         }
     }
 
-    static class Stack {
-        public static boolean isEmpty() {
+    static class Queue {
+        static Node front = null;
+        static Node rear = null;
 
-            return head == null;
+        public static boolean isEmpty() {
+            return front == null && rear == null;
         }
 
-        public static void push(int data) {
-            com.bridgelabz.StacksAndQueues.Node newNode = new com.bridgelabz.StacksAndQueues.Node(data);
-            if (isEmpty()) {
-                head = newNode;
+        public void queue(int data) {
+            Node newNode = new Node(data);
+            if (front == null) {                 //empty queue
+                rear = front = newNode;         // front and rear are at same point at the same node
                 return;
             }
-            newNode.next = head;
-            head = newNode;
+            rear.next = newNode;
+            rear = newNode;
         }
 
-        public static void display() {
-            com.bridgelabz.StacksAndQueues.Node current = head;
-            if (head == null) {
-                System.out.println("List is empty");
+        public int dequeue(int data) {
+            Node newNode = new Node(data);
+            if (front == null) {
+                System.out.println("Queue is empty ");
+
             }
-            while (current != null) {
-                System.out.println(current.data + " ");
-                current = current.next;
+            int result = front.data;
+            front = front.next;
+            return result;
+        }
+
+        public void disp() {
+            Node temp = front;
+            while (temp != null) {
+                System.out.print(temp.data + " ");
+                temp = temp.next;
             }
         }
-    }
 
-    public static void main(String[] args) {
-        com.bridgelabz.StacksAndQueues.Stack s = new com.bridgelabz.StacksAndQueues.Stack();
-        s.push(70);
-        s.push(30);
-        s.push(56);
-        s.display();
+        public static void main(String[] args) {
+            Queue q = new Queue();
+            q.queue(56);
+            q.queue(30);
+            q.queue(70);
+            System.out.print("Queue values before Dequeue operation : ");
+            q.disp();
+            System.out.println();
+            q.dequeue(56);
+            q.dequeue(30);
+            System.out.print("Queue values After Implementing dequeue Operation is : ");
+            q.disp();
+
+        }
     }
 }
